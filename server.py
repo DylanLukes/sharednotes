@@ -24,6 +24,11 @@ class LocationPut(BaseModel):
         }
 
 
+@app.get("/echo/{message}", response_model=str)
+async def echo(message: str):
+    return message
+
+
 @app.get("/notes/{title}", response_model=Note, response_model_exclude_unset=True)
 async def get_note(title: str, conn: Connection = Depends(NoteDAO.get_db_conn)):
     note = await NoteDAO.get(conn, title)
