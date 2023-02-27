@@ -24,9 +24,9 @@ class LocationPut(BaseModel):
         }
 
 
-@app.get("/echo/{message}", response_model=str)
+@app.get("/echo/{message}")
 async def echo(message: str):
-    return message
+    return {"message": message}
 
 
 @app.get("/notes/{title}", response_model=Note, response_model_exclude_unset=True)
