@@ -57,16 +57,16 @@ async def put_note(
     return note
 
 
-@app.delete("/notes/{title}")
-async def delete_note(
-        title: str,
-        conn: Connection = Depends(NoteDAO.get_db_conn),
-):
-    try:
-        await NoteDAO.delete(conn, title)
-    except IntegrityError as e:
-        raise HTTPException(status_code=500, detail="Database error.")
-    return {"message": "Note deleted."}
+# @app.delete("/notes/{title}")
+# async def delete_note(
+#         title: str,
+#         conn: Connection = Depends(NoteDAO.get_db_conn),
+# ):
+#     try:
+#         await NoteDAO.delete(conn, title)
+#     except IntegrityError as e:
+#         raise HTTPException(status_code=500, detail="Database error.")
+#     return {"message": "Note deleted."}
 
 if __name__ == "__main__":
     import uvicorn
