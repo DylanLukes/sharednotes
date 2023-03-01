@@ -28,6 +28,10 @@ class Note(BaseModel):
             }
         }
 
+        json_encoders = {
+            datetime: lambda dt: dt.strftime('%Y-%m-%dT%H:%M:%SZ'),
+        }
+
 
 class NoteInDb(Note):
     created_at: datetime
@@ -62,11 +66,13 @@ class NoteDAO:
         return NoteInDb.parse_obj(result)
 
     @staticmethod
-    async def put(conn: Connection, title: str, content: str, updated_at: datetime) -> NoteInDb | None:
+    async def put(conn: Connection, title: str, content: str,
+                  updated_at: datetime) -> NoteInDb | None:
         """
         Put (upsert: update or insert) a note.
         """
-        await queries.put_note(conn, title=title, content=content, updated_at=updated_at)
+        await queries.put_note(conn, title=title, content=content,
+                               updated_at=updated_at)
         await conn.commit()
 
         result = await queries.get_note(conn, title=title, content=content)
