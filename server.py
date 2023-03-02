@@ -8,7 +8,7 @@ from pydantic import BaseModel
 
 from database import NoteDAO, Note
 
-app = FastAPI(title="Shared Notes", description="A simple shared notes API.", version="0.1.0")
+app = FastAPI(title="Shared Notes", description="A simple shared notes API.", version="0.2.0")
 
 
 class LocationPut(BaseModel):
