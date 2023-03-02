@@ -3,6 +3,7 @@ create table if not exists shared_notes
 (
     title      TEXT      not null primary key,
     content    TEXT      not null,
+    version    INTEGER   not null default 0,
 
     created_at TIMESTAMP not null default current_timestamp,
     updated_at TIMESTAMP not null default current_timestamp
@@ -15,9 +16,9 @@ create trigger if not exists shared_notes_upsert_newer
     before insert
     on shared_notes
     for each row
-    when (new.updated_at < ( select updated_at
-                             from shared_notes
-                             where title = new.title ))
+    when (new.version < ( select version
+                          from shared_notes
+                          where title = new.title ))
 begin
     select raise(abort, 'conflict: new note is older than existing note');
 end;
@@ -28,10 +29,11 @@ from shared_notes
 where title = :title;
 
 -- name: put-note<!
-insert into shared_notes (title, content, updated_at)
-values (:title, :content, :updated_at)
+insert into shared_notes (title, content, version)
+values (:title, :content, version)
 on conflict (title) do update set content    = :content,
-                                  updated_at = :updated_at;
+                                  version    = :version,
+                                  updated_at = current_timestamp;
 
 -- name: delete-note!
 delete

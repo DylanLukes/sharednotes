@@ -13,13 +13,13 @@ app = FastAPI(title="Shared Notes", description="A simple shared notes API.", ve
 
 class LocationPut(BaseModel):
     content: str
-    updated_at: Optional[datetime] = datetime.min
+    version: Optional[int] = 0
 
     class Config:
         schema_extra = {
             "example": {
                 "content": "This is a note.",
-                "updated_at": datetime.now(),
+                "version": 0
             }
         }
 
@@ -46,7 +46,7 @@ async def put_note(
         conn: Connection = Depends(NoteDAO.get_db_conn),
 ):
     try:
-        note = await NoteDAO.put(conn, title, request.content, request.updated_at)
+        note = await NoteDAO.put(conn, title, request.content, request.version)
     except IntegrityError as e:
         if "older" in str(e):
             raise HTTPException(status_code=409,

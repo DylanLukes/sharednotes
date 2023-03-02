@@ -67,12 +67,12 @@ class NoteDAO:
 
     @staticmethod
     async def put(conn: Connection, title: str, content: str,
-                  updated_at: datetime) -> NoteInDb | None:
+                  version: int) -> NoteInDb | None:
         """
         Put (upsert: update or insert) a note.
         """
         await queries.put_note(conn, title=title, content=content,
-                               updated_at=updated_at)
+                               updated_at=version)
         await conn.commit()
 
         result = await queries.get_note(conn, title=title, content=content)
