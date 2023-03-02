@@ -30,7 +30,7 @@ where title = :title;
 
 -- name: put-note<!
 insert into shared_notes (title, content, version)
-values (:title, :content, version)
+values (:title, :content, :version)
 on conflict (title) do update set content    = :content,
                                   version    = :version,
                                   updated_at = current_timestamp;

@@ -71,7 +71,7 @@ class NoteDAO:
         Put (upsert: update or insert) a note.
         """
         await queries.put_note(conn, title=title, content=content,
-                               updated_at=version)
+                               version=version)
         await conn.commit()
 
         result = await queries.get_note(conn, title=title, content=content)
