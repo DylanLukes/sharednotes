@@ -22,6 +22,16 @@ create trigger if not exists shared_notes_upsert_newer
 begin
     select raise(abort, 'conflict: new note is older than existing note');
 end;
+create trigger if not exists shared_notes_upsert_newer_update
+    before update
+    on shared_notes
+    for each row
+    when (new.version < ( select version
+                          from shared_notes
+                          where title = new.title ))
+begin
+    select raise(abort, 'conflict: new note is older than existing note');
+end;
 
 -- name: get-note^
 select *
