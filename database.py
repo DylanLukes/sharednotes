@@ -14,6 +14,7 @@ queries = aiosql.from_path(SQL_FILE, "aiosqlite")
 class Note(BaseModel):
     title: str
     content: str
+    version: int
 
     created_at: datetime | None
     updated_at: datetime | None
