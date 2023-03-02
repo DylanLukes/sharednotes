@@ -16,8 +16,8 @@ class Note(BaseModel):
     content: str
     version: int
 
-    created_at: datetime | None
-    updated_at: datetime | None
+    # created_at: datetime | None
+    # updated_at: datetime | None
 
     class Config:
         schema_extra = {
