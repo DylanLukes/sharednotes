@@ -23,8 +23,7 @@ class Note(BaseModel):
             "example": {
                 "title": "My First Note",
                 "content": "This is my first note. It's pretty cool.",
-                "created_at": "2023-02-18T12:00:00Z",
-                "updated_at": "2023-02-18T18:30:00Z",
+                "version": 1
             }
         }
 
